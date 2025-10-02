@@ -1,6 +1,4 @@
 'use client'
-
-import { MARKET_OVERVIEW_WIDGET_CONFIG } from "@/lib/constants";
 import { useEffect, useRef } from "react";
 
 
