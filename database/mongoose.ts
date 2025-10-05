@@ -15,7 +15,7 @@ if (!cached) {
   cached = global.mongooseCache = { conn: null, promise: null };
 }
 
-// Avoid hot reaload from NextJs
+// Avoid hot reload from NextJs
 export const connectToDatabase = async () => { 
   if(!MONGODB_URI) throw new Error('MONGODB_URI must be set within .env');
 
