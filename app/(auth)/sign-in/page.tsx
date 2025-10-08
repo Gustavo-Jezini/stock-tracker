@@ -4,15 +4,17 @@ import { CountrySelectField } from "@/components/forms/CountrySelectField";
 import InputField from "@/components/forms/fields";
 import SelectField from "@/components/forms/SelectField";
 import { Button } from "@/components/ui/button";
+import { signInWithEmail } from "@/lib/actions/auth.actions";
 import { INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function SignIn() {
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting }
   } = useForm<SignInFormData>({
     defaultValues: { 
@@ -24,9 +26,15 @@ function SignIn() {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
-      console.log(data)
+      const result = await signInWithEmail(data);
+      if (!result.success) throw new Error(result.error);
+
+      router.push('/');
     } catch (e) {
       console.log(e)
+      toast.error('Sign in failed. Please try again.', {
+        description: e instanceof Error ? e.message : 'An unexpected error occurred. Please try again.'
+      });
     } 
   }
 
@@ -41,7 +49,13 @@ function SignIn() {
         placeholder="your-email@email.com"
         register={register}
         error={errors.email}
-        validation={{ required: "Email is Required", pattern: /ˆ\w+@\w+\.\w+$/, message: 'Email address is required' }}
+        validation={{ 
+          required: "Email is Required", 
+          pattern: { 
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, 
+            message: 'Please enter a valid email address' 
+          }
+        }}
       />
       <InputField 
         name="password"
