@@ -4,11 +4,14 @@ import { CountrySelectField } from "@/components/forms/CountrySelectField";
 import InputField from "@/components/forms/fields";
 import SelectField from "@/components/forms/SelectField";
 import { Button } from "@/components/ui/button";
+import { signUpWithEmail } from "@/lib/actions/auth.actions";
 import { INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS } from "@/lib/constants";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function SignUp() {
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -27,11 +30,18 @@ function SignUp() {
     mode: 'onBlur'
   } )
 
+
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      console.log(data)
+      const result = await signUpWithEmail(data);
+
+      if (result.success) router.push('/');
     } catch (e) {
       console.log(e)
+      toast.error('Sign up failed', {
+        description: e instanceof Error ? e.message : 'Failed to create an account'
+      })
+
     } 
   }
 
@@ -55,7 +65,7 @@ function SignUp() {
         placeholder="your-email@email.com"
         register={register}
         error={errors.email}
-        validation={{ required: "Email is Required", pattern: /ˆ\w+@\w+\.\w+$/, message: 'Email address is required' }}
+        validation={{ required: "Email is Required", message: 'Email address is required' }}
       />
       <InputField 
         name="password"
