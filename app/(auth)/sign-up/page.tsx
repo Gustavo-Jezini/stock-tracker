@@ -65,7 +65,13 @@ function SignUp() {
         placeholder="your-email@email.com"
         register={register}
         error={errors.email}
-        validation={{ required: "Email is Required", message: 'Email address is required' }}
+        validation={{
+          required: "Email is Required",
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: "Please enter a valid email address"
+          }
+        }}
       />
       <InputField 
         name="password"
