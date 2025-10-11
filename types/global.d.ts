@@ -67,6 +67,12 @@ declare global {
         intro: string;
     };
 
+    type NewsSummaryEmailData = {
+        email: string;
+        date: string;
+        newsContent: string;
+    };
+
     type User = {
         id: string;
         name: string;
@@ -214,6 +220,13 @@ declare global {
         alertType: 'upper' | 'lower';
         threshold: number;
         changePercent?: number;
+    };
+
+    type WatchlistItem = {
+        userId: string;
+        symbol: string;
+        company: string;
+        addedAt: Date;
     };
 }
 
