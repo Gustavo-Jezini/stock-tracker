@@ -132,7 +132,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
 
         return await sendNewsSummaryEmail({
           email: user.email,
-          date: formatDateToday, 
+          date: formatDateToday(), 
           newsContent
         })
       }))
