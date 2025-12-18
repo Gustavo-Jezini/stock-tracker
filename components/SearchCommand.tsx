@@ -51,7 +51,6 @@ export default function SearchCommand({ label = 'Add Stock', renderAs = 'button'
 
     try {
       const results = await searchStocks(searchTerm.trim());
-      console.log('Search results:', results);
       setStocks(results);
     } catch {
       setStocks([]);
