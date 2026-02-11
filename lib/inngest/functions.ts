@@ -60,7 +60,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
   async ({ step }) => {
     // Step #1: Get all users for news delivery
     const users = await step.run('get-all-users', getAllUsersForNewsEmail)
-    console.log(users)
+
     if (!users || users.length === 0) {
       return { success: false, message: 'No users found for news email' }
     }
@@ -102,7 +102,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
         .replace('{{newsData}}', JSON.stringify(news, null, 2))
 
         const response = await step.ai.infer(`summarize-news-${user.email}`, {
-          model: step.ai.models.gemini({ model: 'gemini-2.5-flash-lite' }),
+          model: step.ai.models.gemini({ model: 'gemini-3-flash-preview' }),
           body: {
             contents: [ 
               {
